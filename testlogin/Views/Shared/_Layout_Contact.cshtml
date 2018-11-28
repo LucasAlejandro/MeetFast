@@ -1,0 +1,289 @@
+﻿@model testlogin.Models.RegisterViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>MeetFast</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/Contact/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link href="~/Content/Contact/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="~/Content/Contact/css/grayscale.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+
+    @RenderBody()
+    @*<button class="botonF1">
+        <span>+</span>
+    </button>*@
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Bienvenido a MeetFast</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#about">Sobre nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#projects">Informacion General</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#signup">Ayuda</a>
+                    </li>
+                    
+                    <li class="nav-item ">@Html.ActionLink("Ir a MeetFast.com", "Login", "Account", new { id = " loginLink"  }, new { @class = "nav-link js-scroll-trigger" })</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Header -->
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="mx-auto text-center">
+                <h1 class="mx-auto my-0 text-uppercase">MeetFast</h1>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5">Entra y ven a disfrutar de las miles de oportunidades que tienes ahí fuera , </h2>
+                <a href="" class="btn btn-primary js-scroll-trigger" data-toggle="modal" data-target="#modalRegisterForm">Me apunto!</a>
+
+            </div>
+        </div>
+    </header>
+    <!-- About Section -->
+    <section id="about" class="about-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="text-white mb-4">¿Quienes somos?</h2>
+                    <p class="text-white-50">
+                        Te apetece conocer gente con tus mismas aficiones ,gustos e intereses. MeetFast te permitira unirte a toda clase de eventos
+                        y disfrutar de lo que mas te gusta en compañia.
+                    </p>
+                </div>
+            </div>
+            <img src="~/Content/Contact/img/ipad2.png" class="img-fluid" alt="">
+        </div>
+    </section>
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section bg-light">
+        <div class="container">
+            <!-- Featured Project Row -->
+            <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+                <div class="col-xl-8 col-lg-7">
+                    <img class="img-fluid mb-3 mb-lg-0" src="~/Content/Contact/img/submenu.jpg" alt="">
+                </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="featured-text text-center text-lg-left">
+                        <h4>Nuestro proposito</h4>
+                        <p class="text-black-50 mb-0">
+                            Para nosotros tu felicidad es lo mas importante , y sabemos que esta solo es real cuando se comparte .
+                            Por ello hemos creado MeetFast , cuyo proposito principal es hacer la vida mas llevadera , conoce ,explora y sobre todo se tu mismo ;)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Project One Row -->
+            <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
+                <div class="col-lg-6">
+                    <img class="img-fluid" src="~/Content/Contact/img/running.gif" alt="">
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-primary text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-left">
+                                <h4 class="text-white">Deportes</h4>
+                                <p class="mb-0 text-white-50">Sal a correr, en bici, ve al gimnasio, a la montaña, a la piscina ...</p>
+                                <hr class="d-none d-lg-block mb-0 ml-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>     <div class="text-center">
+                <a href="" class=" bg-dark btn btn-default btn-rounded " data-toggle="modal" data-target="#modalRegisterForm">
+                    Registrarme ahora
+                </a>
+            </div>
+            <!-- Project Two Row -->
+            <div class="row justify-content-center no-gutters">
+                <div class="col-lg-6">
+                    <img class="img-fluid" src="~/Content/Contact/img/cafe.jpg" alt="">
+                </div>
+                <div class="col-lg-6 order-lg-first">
+                    <div class="bg-primary text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-right">
+                                <h4 class="text-white">Social</h4>
+                                <p class="mb-0 text-white-50">Mejora tus habilidades hablando lenguas extrajeras. Tomate un cafe mientras comentas lo que mas te gustó del último libro que leíste , ve al cine . Hay un mundo de posibilidades ahí fuera. Sal y conócelo  </p>
+                                <hr class="d-none d-lg-block mb-0 mr-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- Signup Section -->
+    <section id="signup" class="signup-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-lg-8 mx-auto text-center">
+                    <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+                    <h2 class="text-white mb-5">Si tienes alguna duda "Contactanos"!</h2>
+                    <p class="mb-0 text-white-50">Te enviaremos un correo con toda la informacion disponible </p>
+
+                    <form class="form-inline d-flex">
+                        <input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail" placeholder="Introduce tu email...">
+                        <button type="submit" class="btn btn-primary mx-auto">Subscribe</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section class="contact-section bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="card py-4 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">Address</h4>
+                            <hr class="my-4">
+                            <div class="small text-black-50"><a href="https://goo.gl/maps/2shURiyg2842" target="_blank">Calle Carlos III, 3, 30201 Cartagena, Murcia</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="card py-4 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-envelope text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">Email</h4>
+                            <hr class="my-4">
+                            <div class="small text-black-50">
+                                <a href="mailto:meetfastcontact@gmail.com?Subject=Solicitud%20ayuda%20al%20cliente">meetfastcontact@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="card py-4 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">Phone</h4>
+                            <hr class="my-4">
+                            <div class="small text-black-50">+34 999 99 99 99</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="social d-flex justify-content-center">
+                <a href="#" class="mx-2">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="mx-2">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="mx-2">
+                    <i class="fab fa-google"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-black small text-center text-white-50">
+        <div class="container">
+            MeetFast.com
+        </div>
+    </footer>
+
+    <!--MODAL-->
+    <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center bg-info">
+                    <h4 class="modal-title w-100 font-weight-bold text-white">Registro</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    @{ using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <h5>Cree una cuenta nueva</h5>
+                            <hr />
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <i class="fa fa-envelope prefix grey-text" style="font-size:30px;color:#5bc0de;"></i>
+                                </div>
+
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <i class="fa fa-lock prefix grey-text" style="font-size:30px;color:#5bc0de;"></i>
+                                </div>
+                                <div class="col-md-12">
+                                    @Html.PasswordFor(m => m.Password, new { placeholder = "Contraseña", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <i class="fa fa-lock prefix grey-text" style="font-size:30px;color:#5bc0de;"></i>
+                                </div>
+
+                                <div class="col-md-12">
+
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Repetir Contraseña", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <div class="form-group ">
+
+                                    <input type="submit" class="btn btn-success" value="Registrarse" />
+
+                                </div>
+
+                            </div>
+
+                            <h7>Ya tengo cuenta  @Html.ActionLink("Iniciar Sesion", "Login", "Account", new { id = " loginLink" }, new { @class = "" })</h7>
+                           
+                        }}
+
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+        <!--modal_fin-->
+        <!-- Bootstrap core JavaScript -->
+        <script src="~/Content/Contact/vendor/jquery/jquery.min.js"></script>
+        <script src="~/Content/Contact/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Plugin JavaScript -->
+        <script src="~/Content/Contact/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Custom scripts for this template -->
+        <script src="~/Content/Contact/js/grayscale.min.js"></script>
+</body>
+</html>

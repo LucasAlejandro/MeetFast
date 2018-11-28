@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNet.Identity
+@if ((Request.IsAuthenticated) == (true))
+{
+
+    //{
+    //    Layout = "~/Views/Shared/_Layout_Contact.cshtml";
+
+
+    //}
+    <h2>Ventana principal usuario @User.Identity.GetUserName()</h2>
+
+
+}
+else
+{
+    <h2>Ventana inicio - usuario sin "(registrar /iniciar session)"</h2>
+    //{
+    //    Layout = "~/Views/Shared/_Layout_Contact.cshtml";
+
+
+    //}
+
+}

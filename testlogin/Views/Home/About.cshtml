@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNet.Identity
+@if ((Request.IsAuthenticated) == (false))
+{
+    {
+        ViewBag.Title = "About";
+    }
+    <h2>@ViewBag.Title</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <p>Use this area to provide additional information.</p>
+}
+else
+{
+    {
+        ViewBag.Title = "Eventos";
+    }
+    <h2>@ViewBag.Title</h2>
+
+}
