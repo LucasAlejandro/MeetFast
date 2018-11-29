@@ -1,4 +1,7 @@
 ﻿@model testlogin.Models.RegisterViewModel
+@using testlogin.Models
+
+
 @{
     ViewBag.Title = "Registrarse";
 }
@@ -6,50 +9,55 @@
 <link href="~/Content/LogIn/stylesLogIn.css" rel="stylesheet" type="text/css" />
 <style>
     .cardRegister {
-        text-shadow: 2px black;
-        color:white;
-        padding: 22px 22px;
-        height: 370px;
-        width: 600px;
-        margin-top: auto;
-        margin-bottom: auto;
-        background-color: rgba(5,5,5,0.5) !important;
+    color: whitesmoke;
+    text-shadow: 2px 2px 5px black;
+    padding: 10px;
+    background-color: rgba(5,5,5,0.5) !important;
+    background: -webkit-linear-gradient(to right,rgba(5,5,5,0.5), rgba(5,5,5,0.0)); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, rgba(5,5,5,0.5), rgba(5,5,5,0.0)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
     }
 
 </style>
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal cardRegister", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal degradado", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <h4>Cree una cuenta nueva.</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label " })
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label  texto-lineal" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label texto-lineal" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label texto-lineal" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Registrarse" />
+            <input type="submit" class="btn btn-default login_btn" value="Registrarse" />
         </div>
     </div>
 }
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+@*<div class="col-md-4">
+    <div class="degradado">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>*@
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
