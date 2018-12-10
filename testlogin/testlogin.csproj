@@ -67,6 +67,7 @@
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
@@ -197,9 +198,31 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConexionBD.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\GeoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="datos\database_firewall_rules.cs">
+      <DependentUpon>testEventos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="datos\Evento.cs">
+      <DependentUpon>testEventos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="datos\testEventos.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testEventos.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="datos\testEventos.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testEventos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="datos\testEventos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testEventos.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1650,6 +1673,16 @@
     <Content Include="Content\LogIn\login.jpg" />
     <Content Include="Content\LogIn\stylesLogIn.css" />
     <Content Include="Content\LogIn\styles.css" />
+    <Content Include="datos\testEventos.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>testEventos.edmx</DependentUpon>
+      <LastGenOutput>testEventos.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="datos\testEventos.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>testEventos.edmx</DependentUpon>
+      <LastGenOutput>testEventos.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1724,6 +1757,13 @@
     <Content Include="Content\Contact\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Content\Contact\vendor\jquery\jquery.min.map" />
     <Content Include="Content\Contact\vendor\jquery\jquery.slim.min.map" />
+    <EntityDeploy Include="datos\testEventos.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>testEventos.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="datos\testEventos.edmx.diagram">
+      <DependentUpon>testEventos.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1778,10 +1818,15 @@
     <Content Include="Views\Shared\_Layout_LogIn.cshtml" />
     <Content Include="Views\Shared\_Layout_Contact.cshtml" />
     <Content Include="Views\LogIn\Index.cshtml" />
+    <Content Include="Views\Geo\Autocomplete.cshtml" />
+    <Content Include="Views\Geo\GeoCoder.cshtml" />
+    <Content Include="Views\Geo\Index.cshtml" />
+    <Content Include="Views\Geo\InfoWindow.cshtml" />
+    <Content Include="Views\Geo\MarkerCluster.cshtml" />
+    <Content Include="Views\Geo\InfoWindow_bbdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="datos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -1795,6 +1840,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

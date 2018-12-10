@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "GEOCODER";
+}
+@*                --GEOCODER-- 
+
+        --Buscar lat-log mediante nombre--
+*@
+<style>
+    /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+        #map {
+        height: 400px;
+        width: 500px;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin-top: 50px;
+        padding: 20px;
+    }
+
+    #floating-panel {
+        position: fixed;
+        top: 15%;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding: 10px;
+    }
+</style>
+
+<div id="floating-panel">
+    <input id="address" type="text" value="CIFP CarlosIII ,Cartagena">
+    <input id="submit" type="button" value="Geocode">
+</div>
+<div id="map"></div>
+<script>
+
+    //iniciamos mapa con coordenadas por defecto//
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: {lat: -34.397, lng: 150.644}
+        });
+
+          //creamoas GEOCODER y le agregamos un ActionListener 
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
+      }
+    //a partir de la direccion introducida buscamos coincidencias de google maps, 
+    //lo cual nos devolvera un array con coincidencias en el que cojeremos el primer elementop
+
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            //si existe esa direccion
+            if (status === 'OK') {
+                //va hasta marcador //
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+              //sino
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALkm0kVQkpCFu2G6KbXft7F9nAG120eYI&callback=initMap"
+        async defer></script>

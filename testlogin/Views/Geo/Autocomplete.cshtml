@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+</head>
+<body>
+    <input type="text" id="address" style="width: 500px;"></input>
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALkm0kVQkpCFu2G6KbXft7F9nAG120eYI&libraries=places&callback=initMap"></script>
+
+    <script>
+        var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            console.log(place.address_components);
+        });
+    </script>
+</body>
+</html>
