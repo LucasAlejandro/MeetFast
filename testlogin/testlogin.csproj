@@ -235,18 +235,6 @@
     <Compile Include="Models\MensajeModel.cs" />
     <Compile Include="Models\UsuarioModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Servicios\ComentarioService.cs" />
-    <Compile Include="Servicios\EventoService.cs" />
-    <Compile Include="Servicios\HistoriaService.cs" />
-    <Compile Include="Servicios\InteresService.cs" />
-    <Compile Include="Servicios\Interfaces\IComentarioService.cs" />
-    <Compile Include="Servicios\Interfaces\IEventoService.cs" />
-    <Compile Include="Servicios\Interfaces\IHistoriaService.cs" />
-    <Compile Include="Servicios\Interfaces\IInteresService.cs" />
-    <Compile Include="Servicios\Interfaces\IMensajeService.cs" />
-    <Compile Include="Servicios\Interfaces\IUsuarioService.cs" />
-    <Compile Include="Servicios\MensajeService.cs" />
-    <Compile Include="Servicios\UsuarioService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
