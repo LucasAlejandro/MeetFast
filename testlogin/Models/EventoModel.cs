@@ -19,6 +19,7 @@ namespace MeetFastGit.Models
         private List<UsuarioModelo> asistentes;
         private long idCreador;
         private string nombre;
+        private string descripcion;
         
         public EventoModel(string nombre, string tematica, bool privado, DateTime fCreacion, DateTime fEvento, long latitud, long longitud, long idCreador)
         {
@@ -35,6 +36,16 @@ namespace MeetFastGit.Models
         public EventoModel()
         {
 
+        }
+
+        public void setDescripcion(string descripcion)
+        {
+            this.descripcion = descripcion;
+        }
+
+        public string getDescripcion()
+        {
+            return this.descripcion;
         }
 
         public void setID(long id)

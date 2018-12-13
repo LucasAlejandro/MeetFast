@@ -18,7 +18,7 @@ namespace MeetFastGit.Servicios
                 mensaje.getEmisor(), mensaje.getReceptor(), mensaje.getMensaje(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -49,7 +49,7 @@ namespace MeetFastGit.Servicios
 
                 return listaMesajes;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -81,7 +81,7 @@ namespace MeetFastGit.Servicios
 
                 return listaMesajes;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -100,7 +100,7 @@ namespace MeetFastGit.Servicios
                 mensaje.getEmisor(), mensaje.getReceptor(), mensaje.getFecha(), mensaje.getMensaje(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -131,7 +131,7 @@ namespace MeetFastGit.Servicios
 
                 return listaMesajes;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -163,7 +163,7 @@ namespace MeetFastGit.Servicios
 
                 return listaMesajes;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;

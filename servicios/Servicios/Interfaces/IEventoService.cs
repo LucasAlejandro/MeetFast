@@ -13,42 +13,6 @@ namespace MeetFastGit.Servicios.Interfaces
         void addEvento(EventoModel evento, long creador);
 
         /// <summary>
-        /// Actualiza la descripción de un evento
-        /// </summary>
-        /// <param name="evento"></param>
-        void updateDescripcion(EventoModel evento);
-
-        /// <summary>
-        /// Actualiza el nombre del evento
-        /// </summary>
-        /// <param name="evento"></param>
-        void updateNombre(EventoModel evento);
-
-        /// <summary>
-        /// Actualiza la ubicación del evento
-        /// </summary>
-        /// <param name="evento"></param>
-        void updateUbicacion(EventoModel evento);
-        
-        /// <summary>
-        /// Actualiza la visibilidad del evento
-        /// </summary>
-        /// <param name="evento"></param>
-        void updateVisibilidad(EventoModel evento);
-
-        /// <summary>
-        /// Actualiza la fecha en la que tendrá lugar el evento
-        /// </summary>
-        /// <param name="evento"></param>
-        void updateFecha(EventoModel evento);
-
-        /// <summary>
-        /// Actualiza la temática del evento
-        /// </summary>
-        /// <param name="evento"></param>
-        void updateTematica(EventoModel evento);
-
-        /// <summary>
         /// Elimina un evento
         /// </summary>
         /// <param name="evento"></param>
@@ -69,23 +33,16 @@ namespace MeetFastGit.Servicios.Interfaces
         void removeAsistente(UsuarioModelo asistente, long id);
 
         /// <summary>
-        /// Busca eventos cercanos
+        /// Busca eventos
         /// </summary>
-        /// <param name="latitud"></param>
-        /// <param name="longitud"></param>
-        /// <param name="distancia"></param>
-        /// <returns>Lista de los eventos a la distancia indicada</returns>
-        List<EventoModel> eventosCercanos(long latitud, long longitud, int distancia);
+        /// <returns>Lista de los eventos</returns>
+        List<EventoModel> getEventos();
 
         /// <summary>
-        /// Busca eventos cercanos con cierta tematica
+        /// Busca eventos con cierta tematica
         /// </summary>
-        /// <param name="latitud"></param>
-        /// <param name="longitud"></param>
-        /// <param name="tematica"></param>
-        /// <param name="distancia"></param>
-        /// <returns>Lista de los eventos de la temática indicada en la distancia indicada</returns>
-        List<EventoModel> eventosTematica(long latitud, long longitud, string tematica, int distancia);
+        /// <returns>Lista de los eventos de la temática indicada</returns>
+        List<EventoModel> eventosTematica(string tematica);
 
     }
 }

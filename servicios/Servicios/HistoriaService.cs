@@ -19,7 +19,7 @@ namespace MeetFastGit.Servicios
                 usuario, historia.getContenido(), historia.getHora(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -37,7 +37,7 @@ namespace MeetFastGit.Servicios
                 usuario, historia.getHora(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -66,7 +66,7 @@ namespace MeetFastGit.Servicios
 
                 return listaHistorias;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;

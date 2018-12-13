@@ -18,7 +18,7 @@ namespace MeetFastGit.Servicios
                 comentario.getIdUsuario(), comentario.getIdEvento(), comentario.getFecha(), comentario.getContenido(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -48,7 +48,7 @@ namespace MeetFastGit.Servicios
 
                 return listaComentarios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -79,7 +79,7 @@ namespace MeetFastGit.Servicios
 
                 return listaComentarios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -109,7 +109,7 @@ namespace MeetFastGit.Servicios
 
                 return listaComentarios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -127,7 +127,7 @@ namespace MeetFastGit.Servicios
                 comentario.getContenido(), comentario.getIdUsuario(), comentario.getIdEvento(), comentario.getFecha(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -145,7 +145,7 @@ namespace MeetFastGit.Servicios
                 comentario.getIdUsuario(), comentario.getIdEvento(), comentario.getFecha(), comentario.getContenido(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }

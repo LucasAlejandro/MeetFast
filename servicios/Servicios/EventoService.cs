@@ -1,9 +1,10 @@
 ﻿using MeetFastGit.Controllers;
 using MeetFastGit.Models;
 using MeetFastGit.Servicios.Interfaces;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace MeetFastGit.Servicios
 {
@@ -14,11 +15,15 @@ namespace MeetFastGit.Servicios
         {
             try
             {
-                MySqlCommand comando = new MySqlCommand(string.Format("Insert into EventoAsistencia (ID_Usu, ID_Evento) values ('{0}','{1}')",
-                asistente.getID(), IdEvento, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+
+                query.CommandType = CommandType.Text;
+                query.CommandText = string.Format("Insert into UsuarioEvento (IdUsuario, IdEvento) Values('{0}', '{1}')", asistente.getID(), IdEvento);
+                query.ExecuteNonQuery();
+
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -41,11 +46,19 @@ namespace MeetFastGit.Servicios
                 {
                     visibilidad = "Publico";
                 }
-                MySqlCommand comando = new MySqlCommand(string.Format("Insert into Evento (FechaEvento, ID_Creador, TipoEvento, Visibilidad) values ('{0}','{1}', '{2}', '{3}')",
-                evento.getFechaEvento(), creador, evento.getTematica(), visibilidad, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
+
+
+                var con = conexion.ObtenerConexion();
+
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+
+                query.CommandText = string.Format("Insert into Evento (TipoEvento, Lat, Long, Name, Descripcion, Fecha_Evento, Visibilidad, Creador) values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
+                    evento.getTematica(), evento.getLatitud(), evento.getLongitud(), evento.getNombre(), evento.getDescripcion(), evento.getFechaEvento(), visibilidad, creador );
+                query.ExecuteNonQuery();
+
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -55,29 +68,41 @@ namespace MeetFastGit.Servicios
             }
         }
 
-        public List<EventoModel> eventosCercanos(long latitud, long longitud, int distancia)
+        public List<EventoModel> getEventos()
         {
             List<EventoModel> listaEventos = new List<EventoModel>();
             try
             {
-                MySqlCommand BuscaUsuario = new MySqlCommand(String.Format(
-                  "SELECT ID, ID_Creador, TipoEvento, FechaEvento, Nombre FROM Evento where latitud BETWEEN ('{0}'-'{2}') AND ('{0}'+'{2}') and longitud BETWEEN ('{1}'-'{2}') AND ('{1}'+'{2}') and Visibilidad ='Publico';", latitud, longitud, distancia, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaUsuario.ExecuteReader();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
 
+                query.CommandText = string.Format("Select * From eventos Where Fecha_Evento < Now()");
+                var _reader = query.ExecuteReader();
                 while (_reader.Read())
                 {
                     EventoModel aux = new EventoModel();
                     aux.setID(_reader.GetInt32(0));
-                    aux.setCreador(_reader.GetInt32(1));
-                    aux.setTematica(_reader.GetString(2));
-                    aux.setFechaEvento(_reader.GetDateTime(3));
+                        SqlCommand queryTematica = new SqlCommand();
+                        queryTematica.CommandType = CommandType.Text;
+                        queryTematica.CommandText = string.Format("Select Nombre From TipoEvento Where Id ='{1}'", _reader.GetInt16(1));
+                        var _readerTematica = queryTematica.ExecuteReader();
+                        _readerTematica.Read();
+                    aux.setTematica(_readerTematica.GetString(0));
+                    aux.setLatitud((long)_reader.GetFloat(2));
+                    aux.setLongitud((long)_reader.GetFloat(3));
                     aux.setNombre(_reader.GetString(4));
+                    aux.setDescripcion(_reader.GetString(5));
+                    aux.setFechaCreacion(_reader.GetDateTime(6));
+                    aux.setFechaEvento(_reader.GetDateTime(7));
+                    aux.setPrivado(_reader.GetString(8) == "Publico" ? false : true);
+                    aux.setCreador(_reader.GetInt32(9));
                     listaEventos.Add(aux);
                 }
 
                 return listaEventos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -88,28 +113,44 @@ namespace MeetFastGit.Servicios
             }
         }
 
-        public List<EventoModel> eventosTematica(long latitud, long longitud, string tematica, int distancia)
+        public List<EventoModel> eventosTematica(string tematica)
         {
             List<EventoModel> listaEventos = new List<EventoModel>();
             try
             {
-                MySqlCommand BuscaUsuario = new MySqlCommand(String.Format(
-                  "SELECT ID, ID_Creador, FechaEvento, Nombre FROM Evento where latitud BETWEEN ('{0}'-'{2}') AND ('{0}'+'{2}') and longitud BETWEEN ('{1}'-'{2}') AND ('{1}'+'{2}') and Visibilidad ='Publico' and TipoEvento ='{3}';", latitud, longitud, distancia, tematica, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaUsuario.ExecuteReader();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
 
+                    SqlCommand queryTematica = new SqlCommand();
+                    queryTematica.CommandType = CommandType.Text;
+
+                    queryTematica.CommandText = string.Format("Select Id From TipoEvento Where Nombre = '{0}'", tematica);
+                    var _readerTematica = queryTematica.ExecuteReader();
+                    _readerTematica.Read();
+
+
+                query.CommandText = string.Format("Select * From eventos Where Fecha_Evento < Now() and TipoEvento = '{0}'", _readerTematica.GetInt32(0));
+                var _reader = query.ExecuteReader();
                 while (_reader.Read())
                 {
                     EventoModel aux = new EventoModel();
                     aux.setID(_reader.GetInt32(0));
-                    aux.setCreador(_reader.GetInt32(1));
-                    aux.setFechaEvento(_reader.GetDateTime(2));
-                    aux.setNombre(_reader.GetString(3));
+                    aux.setTematica(tematica);
+                    aux.setLatitud((long)_reader.GetFloat(2));
+                    aux.setLongitud((long)_reader.GetFloat(3));
+                    aux.setNombre(_reader.GetString(4));
+                    aux.setDescripcion(_reader.GetString(5));
+                    aux.setFechaCreacion(_reader.GetDateTime(6));
+                    aux.setFechaEvento(_reader.GetDateTime(7));
+                    aux.setPrivado(_reader.GetString(8) == "Publico" ? false : true);
+                    aux.setCreador(_reader.GetInt32(9));
                     listaEventos.Add(aux);
                 }
 
                 return listaEventos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -124,11 +165,13 @@ namespace MeetFastGit.Servicios
         {
             try
             {
-                MySqlCommand comando = new MySqlCommand(string.Format("delete from EventoAsistencia where ID_Usu ='{0}' and ID_Evento='{1}'",
-                asistente.getID(), id, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                query.CommandText = string.Format(("delete from Usuario where IdUsuario ='{0}' and IdEvento='{1}'"), asistente.getID(), id);
+                query.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -142,103 +185,18 @@ namespace MeetFastGit.Servicios
         {
             try
             {
-                MySqlCommand comando = new MySqlCommand(string.Format("delete from Evento where ID ='{0}'",
-                evento.getID(), conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
-            }
-            catch (MySqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
+                var con = conexion.ObtenerConexion();
 
-        public void updateDescripcion(EventoModel evento)
-        {
-            throw new NotImplementedException();
-        }
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
 
-        public void updateNombre(EventoModel evento)
-        {
-            throw new NotImplementedException();
-        }
+                query.CommandText = string.Format("Delete from Evento where Id ='{0}'",
+                evento.getID());
 
-        public void updateUbicacion(EventoModel evento)
-        {
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Evento SET Latitud = '{0}', Longitud ='{1}' WHERE ID == '{2}';)",
-                evento.getLatitud(), evento.getLongitud(), evento.getID(), conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
-            }
-            catch (MySqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
+                query.ExecuteNonQuery();
 
-        public void updateVisibilidad(EventoModel evento)
-        {
-            try
-            {
-                string visibilidad = "";
-                if (evento.getPrivado())
-                {
-                    visibilidad = "Privado";
-                }
-                else
-                {
-                    visibilidad = "Publico";
-                }
-
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Evento SET Visibilidad = '{0}' WHERE ID == '{1}';)",
-                visibilidad, evento.getID(), conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public void updateFecha(EventoModel evento)
-        {
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Evento SET FechaEvento = '{0}' WHERE ID == '{1}';)",
-                 evento.getFechaEvento(), evento.getID(), conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
-            }
-            catch (MySqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public void updateTematica(EventoModel evento)
-        {
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Evento SET TipoEvento = '{0}' WHERE ID == '{1}';)",
-                 evento.getTematica(), evento.getID(), conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
-            }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }

@@ -18,7 +18,7 @@ namespace MeetFastGit.Servicios
                 interes.getNombre(), interes.getTipo(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -36,7 +36,7 @@ namespace MeetFastGit.Servicios
                 interes.getID(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -66,7 +66,7 @@ namespace MeetFastGit.Servicios
 
                 return listaIntereses;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -97,7 +97,7 @@ namespace MeetFastGit.Servicios
 
                 return listaIntereses;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -124,7 +124,7 @@ namespace MeetFastGit.Servicios
 
                 return listaTipos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -143,7 +143,7 @@ namespace MeetFastGit.Servicios
                 interes.getNombre(), interes.getTipo(), interes.getID(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }

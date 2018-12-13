@@ -20,7 +20,7 @@ namespace MeetFastGit.Servicios
                 ID, amigo.getID(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -62,7 +62,7 @@ namespace MeetFastGit.Servicios
                 }
 
             }
-            catch(MySqlException e)
+            catch(SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -80,7 +80,7 @@ namespace MeetFastGit.Servicios
                 ID, amigo.getID(), conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -100,7 +100,7 @@ namespace MeetFastGit.Servicios
                 comando.CommandText = string.Format("delete from Usuario where ID_Usu = '{0}'", usuario.getID());
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -129,7 +129,7 @@ namespace MeetFastGit.Servicios
 
                 return listaAmigos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -169,7 +169,7 @@ namespace MeetFastGit.Servicios
 
                 return listaAmigos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -200,7 +200,7 @@ namespace MeetFastGit.Servicios
 
                 return listaAmigos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -231,7 +231,7 @@ namespace MeetFastGit.Servicios
 
                 return listaAmigos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -263,7 +263,7 @@ namespace MeetFastGit.Servicios
 
                 return listaAmigos;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -294,7 +294,7 @@ namespace MeetFastGit.Servicios
 
                 return listaUsuaios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -334,7 +334,7 @@ namespace MeetFastGit.Servicios
 
                 return listaUsuarios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -365,7 +365,7 @@ namespace MeetFastGit.Servicios
 
                 return listaUsuarios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -414,7 +414,7 @@ namespace MeetFastGit.Servicios
 
                 return listaUsuarios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -446,7 +446,7 @@ namespace MeetFastGit.Servicios
 
                 return listaUsuarios;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -465,7 +465,7 @@ namespace MeetFastGit.Servicios
                 fotoUI, id, conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -483,7 +483,7 @@ namespace MeetFastGit.Servicios
                 contraseña, id, conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -501,7 +501,7 @@ namespace MeetFastGit.Servicios
                 localidad, id, conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -519,7 +519,7 @@ namespace MeetFastGit.Servicios
                 telefono, id, conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -537,7 +537,7 @@ namespace MeetFastGit.Servicios
                 nombre, id, conexion.ObtenerConexion()));
                 comando.ExecuteNonQuery();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
             }
