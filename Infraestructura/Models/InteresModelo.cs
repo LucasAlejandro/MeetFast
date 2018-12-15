@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using MeetFastGit.Models;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MeetFastGit.Models
+namespace Infraestructura.Models
 {
     public class InteresModelo
     {

@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using MeetFastGit.Models;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MeetFastGit.Models
+namespace Infraestructura.Models
 {
     public class EventoModel
     {
         private long id;
         private string tematica;
         private bool privado;
-        private DateTime fechaCreacion;
+        //private DateTime fechaCreacion;
         private DateTime fechaEvento;
-        private long latitud;
-        private long longitud;
-        private List<ComentarioModel> comentarios;
-        private List<UsuarioModelo> asistentes;
+        private float latitud;
+        private float longitud;
+        //private List<ComentarioModel> comentarios;
+        //private List<UsuarioModelo> asistentes;
         private long idCreador;
         private string nombre;
         private string descripcion;
-        
-        public EventoModel(string nombre, string tematica, bool privado, DateTime fCreacion, DateTime fEvento, long latitud, long longitud, long idCreador)
+
+        public EventoModel(string nombre, string tematica, bool privado, DateTime fCreacion, DateTime fEvento, float latitud, float longitud, long idCreador)
         {
             this.nombre = nombre;
             this.tematica = tematica;
             this.privado = privado;
-            this.fechaCreacion = fCreacion;
+            //this.fechaCreacion = fCreacion;
             this.fechaEvento = fEvento;
             this.latitud = latitud;
             this.idCreador = idCreador;
@@ -63,12 +63,12 @@ namespace MeetFastGit.Models
             this.idCreador = id;
         }
 
-        public void setLatitud(long latitud)
+        public void setLatitud(float latitud)
         {
             this.latitud = latitud;
         }
 
-        public void setLongitud(long longitud)
+        public void setLongitud(float longitud)
         {
             this.longitud = longitud;
         }
@@ -82,25 +82,25 @@ namespace MeetFastGit.Models
             this.privado = privado;
         }
 
-        public void setFechaCreacion(DateTime FCreacion)
-        {
-            this.fechaCreacion = FCreacion;
-        }
+        //public void setFechaCreacion(DateTime FCreacion)
+        //{
+        //    this.fechaCreacion = FCreacion;
+        //}
 
         public void setFechaEvento(DateTime FEvento)
         {
-            this.fechaCreacion = FEvento;
+            this.fechaEvento = FEvento;
         }
 
-        public void setComentarios(List<ComentarioModel> comentarios)
-        {
-            this.comentarios = comentarios;
-        }
+        //public void setComentarios(List<ComentarioModel> comentarios)
+        //{
+        //    this.comentarios = comentarios;
+        //}
 
-        public void setAsistentes(List<UsuarioModelo> asistentes)
-        {
-            this.asistentes = asistentes;
-        }
+        //public void setAsistentes(List<UsuarioModelo> asistentes)
+        //{
+        //    this.asistentes = asistentes;
+        //}
 
         public long getID()
         {
@@ -117,50 +117,50 @@ namespace MeetFastGit.Models
             return this.privado;
         }
 
-        public DateTime getFechaCreacion()
-        {
-            return this.fechaCreacion;
-        }
+        //public DateTime getFechaCreacion()
+        //{
+        //    return this.fechaCreacion;
+        //}
 
         public DateTime getFechaEvento()
         {
             return this.fechaEvento;
         }
 
-        public long getLatitud()
+        public float getLatitud()
         {
             return this.latitud;
         }
 
-        public long getLongitud()
+        public float getLongitud()
         {
             return this.longitud;
         }
 
-        public List<ComentarioModel> getComentarios()
-        {
-            return this.comentarios;
-        }
+        //public List<ComentarioModel> getComentarios()
+        //{
+        //    return this.comentarios;
+        //}
 
-        public List<UsuarioModelo> getAsistentes()
-        {
-            return this.asistentes;
-        }
+        //public List<UsuarioModelo> getAsistentes()
+        //{
+        //    return this.asistentes;
+        //}
 
-        public void añadirComentario(ComentarioModel comentario)
-        {
-            this.comentarios.Add(comentario);
-        }
+        //public void añadirComentario(ComentarioModel comentario)
+        //{
+        //    this.comentarios.Add(comentario);
+        //}
 
-        public void añadirAsistente(UsuarioModelo asistente)
-        {
-            this.asistentes.Add(asistente);
-        }
+        //public void añadirAsistente(UsuarioModelo asistente)
+        //{
+        //    this.asistentes.Add(asistente);
+        //}
 
         public string getNombre()
         {
             return this.nombre;
         }
-        
+
     }
 }

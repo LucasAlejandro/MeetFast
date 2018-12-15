@@ -64,10 +64,6 @@
       <Project>{67fc519d-57f7-421b-9095-a2983344b9f7}</Project>
       <Name>Infraestructura</Name>
     </ProjectReference>
-    <ProjectReference Include="..\testlogin\testlogin.csproj">
-      <Project>{b2773807-bea8-442d-a4bd-e4e447a4a8b8}</Project>
-      <Name>testlogin</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

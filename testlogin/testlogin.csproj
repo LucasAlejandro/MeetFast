@@ -222,18 +222,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>testEventos.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ComentarioModel.cs" />
-    <Compile Include="Models\EventoModel.cs" />
-    <Compile Include="Models\HistoriaModelo.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\InteresModelo.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MensajeModel.cs" />
-    <Compile Include="Models\UsuarioModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -1836,6 +1830,10 @@
     <ProjectReference Include="..\Infraestructura\Infraestructura.csproj">
       <Project>{67FC519D-57F7-421B-9095-A2983344B9F7}</Project>
       <Name>Infraestructura</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\servicios\servicios.csproj">
+      <Project>{BD967AFE-1152-4B1C-A934-12D4AA1927CD}</Project>
+      <Name>servicios</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

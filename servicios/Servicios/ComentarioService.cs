@@ -1,13 +1,13 @@
 ﻿using MeetFastGit.Controllers;
-using MeetFastGit.Models;
-using MeetFastGit.Servicios.Interfaces;
-using MySql.Data.MySqlClient;
+using Infraestructura.Models;
+using servicios.Interfaces.Servicios;
+
 using System;
 using System.Collections.Generic;
 
-namespace MeetFastGit.Servicios
+namespace servicios.Servicios
 {
-    public class ComentarioService : IComentarioService
+    /*public class ComentarioService : IComentarioService
     {
         ConexionBD conexion = new ConexionBD();
         public void addComentario(ComentarioModel comentario)
@@ -154,5 +154,5 @@ namespace MeetFastGit.Servicios
                 conexion.CerrarConexion();
             }
         }
-    }
+    }*/
 }

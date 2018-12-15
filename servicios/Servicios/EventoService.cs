@@ -1,12 +1,12 @@
 ﻿using MeetFastGit.Controllers;
-using MeetFastGit.Models;
-using MeetFastGit.Servicios.Interfaces;
+using Infraestructura.Models;
+using servicios.Interfaces.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MeetFastGit.Servicios
+namespace servicios.Servicios
 {
     public class EventoService : IEventoService
     {
@@ -75,30 +75,32 @@ namespace MeetFastGit.Servicios
             {
                 var con = conexion.ObtenerConexion();
                 SqlCommand query = con.CreateCommand();
+                SqlCommand queryTematica = con.CreateCommand();
+
                 query.CommandType = CommandType.Text;
 
-                query.CommandText = string.Format("Select * From eventos Where Fecha_Evento < Now()");
+                query.CommandText = string.Format("Select * From Evento");
                 var _reader = query.ExecuteReader();
+
                 while (_reader.Read())
                 {
                     EventoModel aux = new EventoModel();
                     aux.setID(_reader.GetInt32(0));
-                        SqlCommand queryTematica = new SqlCommand();
-                        queryTematica.CommandType = CommandType.Text;
-                        queryTematica.CommandText = string.Format("Select Nombre From TipoEvento Where Id ='{1}'", _reader.GetInt16(1));
-                        var _readerTematica = queryTematica.ExecuteReader();
-                        _readerTematica.Read();
-                    aux.setTematica(_readerTematica.GetString(0));
-                    aux.setLatitud((long)_reader.GetFloat(2));
-                    aux.setLongitud((long)_reader.GetFloat(3));
-                    aux.setNombre(_reader.GetString(4));
-                    aux.setDescripcion(_reader.GetString(5));
-                    aux.setFechaCreacion(_reader.GetDateTime(6));
-                    aux.setFechaEvento(_reader.GetDateTime(7));
-                    aux.setPrivado(_reader.GetString(8) == "Publico" ? false : true);
-                    aux.setCreador(_reader.GetInt32(9));
+                    //_reader.Read();
+                    var tipo = int.Parse(_reader[1].ToString());
+                    //aux.setTematica(tipo.ToString());
+                    //_reader.Read();
+                    aux.setLatitud(float.Parse(_reader[2].ToString()));
+                    aux.setLongitud(float.Parse(_reader[3].ToString()));
+                    aux.setNombre(_reader[4].ToString());
+                    aux.setDescripcion(_reader[5].ToString());
+                    //aux.setFechaCreacion(DateTime.Parse(_reader[6].ToString()));
+                    aux.setFechaEvento(DateTime.Parse(_reader[7].ToString()));
+                    aux.setPrivado(_reader[8].ToString() == "Publico" ? false : true);
+                    aux.setCreador(int.Parse(_reader[9].ToString()));
                     listaEventos.Add(aux);
                 }
+
 
                 return listaEventos;
             }
@@ -137,11 +139,11 @@ namespace MeetFastGit.Servicios
                     EventoModel aux = new EventoModel();
                     aux.setID(_reader.GetInt32(0));
                     aux.setTematica(tematica);
-                    aux.setLatitud((long)_reader.GetFloat(2));
-                    aux.setLongitud((long)_reader.GetFloat(3));
+                    aux.setLatitud(long.Parse(_reader.GetFloat(2).ToString()));
+                    aux.setLongitud(long.Parse(_reader.GetFloat(3).ToString()));
                     aux.setNombre(_reader.GetString(4));
                     aux.setDescripcion(_reader.GetString(5));
-                    aux.setFechaCreacion(_reader.GetDateTime(6));
+                    //aux.setFechaCreacion(_reader.GetDateTime(6));
                     aux.setFechaEvento(_reader.GetDateTime(7));
                     aux.setPrivado(_reader.GetString(8) == "Publico" ? false : true);
                     aux.setCreador(_reader.GetInt32(9));

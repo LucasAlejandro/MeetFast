@@ -1,12 +1,12 @@
 ﻿using MeetFastGit.Controllers;
-using MeetFastGit.Models;
-using MeetFastGit.Servicios.Interfaces;
-using MySql.Data.MySqlClient;
+using Infraestructura.Models;
+using servicios.Interfaces.Servicios;
+
 using System;
 using System.Collections.Generic;
 
-namespace MeetFastGit.Servicios
-{
+namespace servicios.Servicios
+{/*
     public class InteresService : IInteresService
     {
         ConexionBD conexion = new ConexionBD();
@@ -152,5 +152,5 @@ namespace MeetFastGit.Servicios
                 conexion.CerrarConexion();
             }
         }
-    }
+    }*/
 }

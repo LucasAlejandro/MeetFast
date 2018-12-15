@@ -1,13 +1,12 @@
 ﻿using MeetFastGit.Controllers;
-using MeetFastGit.Models;
-using MeetFastGit.Servicios.Interfaces;
-using MySql.Data.MySqlClient;
+using Infraestructura.Models;
+using servicios.Interfaces.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MeetFastGit.Servicios
+namespace servicios.Servicios
 {
     public class UsuarioService : IUsuarioService
     {
@@ -16,9 +15,12 @@ namespace MeetFastGit.Servicios
         {
             try
             {
-                MySqlCommand comando = new MySqlCommand(string.Format("Insert into UsuarioAmigo (ID_Usu, ID_Amigo) values ('{0}','{1}')",
-                ID, amigo.getID(), conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
+                var con = conexion.ObtenerConexion();
+
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                query.CommandText = string.Format("Insert Into Amigo (IdUsuario, IdAmigo) Values('{0}', '{1}')", ID, amigo.getID());
+                query.ExecuteNonQuery();
             }
             catch (SqlException e)
             {
@@ -29,7 +31,7 @@ namespace MeetFastGit.Servicios
                 conexion.CerrarConexion();
             }
         }
-
+        
         public void addUsuario(UsuarioModelo usuario)
         {
             try
@@ -37,29 +39,20 @@ namespace MeetFastGit.Servicios
                 var con = conexion.ObtenerConexion();
 
                 SqlCommand query = con.CreateCommand();
-                SqlCommand queryID = con.CreateCommand();
                 SqlCommand queryCorreo = con.CreateCommand();
                 query.CommandType = CommandType.Text;
-                queryID.CommandType = CommandType.Text;
-                queryCorreo.CommandType = CommandType.Text;
-                
-                query.CommandText = string.Format("Insert into Usuario (NOMBREUSUARIO, CONTRASEÑA) values ('{0}','{1}')", usuario.getNombre(), usuario.getContraseña());
-                query.ExecuteNonQuery();
 
-                queryID.CommandText = string.Format("SELECT MAX(ID) FROM Usuario");
-                SqlDataReader _reader = queryID.ExecuteReader();
-                _reader.Read();
-                usuario.setID(_reader.GetInt32(0));
-
-                queryCorreo.CommandText = string.Format("Insert into UsuarioCorreo (Id, Correo) values ('{0}','{1}')", usuario.getID(), usuario.getEmail());
-                queryCorreo.ExecuteNonQuery();
-
-                if(usuario.getTelefono() != null) {
-                    SqlCommand queryTelefono = con.CreateCommand();
-                    queryTelefono.CommandType = CommandType.Text;
-                    queryTelefono.CommandText = string.Format("Insert into UsuarioTelefono (Id, Telefono) values ('{0}','{1}')", usuario.getID(), usuario.getTelefono());
-                    queryTelefono.ExecuteNonQuery();
+                if(usuario.getTelefono() is null)
+                {
+                    query.CommandText = string.Format("Insert into Usuario (NombreUsuario, Contraseña, Email) values ('{0}','{1}','{2}')", usuario.getNombre(), usuario.getContraseña(), usuario.getEmail());
+                    query.ExecuteNonQuery();
                 }
+                else
+                {
+                    query.CommandText = string.Format("Insert into Usuario (NombreUsuario, Contraseña, Email, Telefono) values ('{0}','{1}','{2}','{3}')", usuario.getNombre(), usuario.getContraseña(), usuario.getEmail(), usuario.getTelefono());
+                    query.ExecuteNonQuery();
+                }
+
 
             }
             catch(SqlException e)
@@ -72,13 +65,16 @@ namespace MeetFastGit.Servicios
             }
         }
         
+
         public void removeAmigo(long ID, UsuarioModelo amigo)
         {
             try
             {
-                MySqlCommand comando = new MySqlCommand(string.Format("delete from UsuarioAmigo where ID_Usu ='{0}' and ID_Amigo ='{1}",
-                ID, amigo.getID(), conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                query.CommandText = string.Format("Delete From Amigo Where (IdUsuario = '{0}' or IdUsuario = '{1}') and (IdAmigo = '{1}' or IdAmigo = '{0}'))", ID, amigo.getID());
+                query.ExecuteNonQuery();
             }
             catch (SqlException e)
             {
@@ -110,62 +106,29 @@ namespace MeetFastGit.Servicios
             }
         }
 
-        public List<UsuarioModelo> todosAmigos(long ID)
+        public List<UsuarioModelo> todosAmigos(UsuarioModelo usu, long ID)
         {
             List<UsuarioModelo> listaAmigos = new List<UsuarioModelo>();
             try
             {
-                MySqlCommand BuscaAmigo = new MySqlCommand(String.Format(
-                  "SELECT Nombre, Foto, ID FROM Usuario where ID_Usu EXISTS (Select ID_Amigo From UsuarioAmigo Where ID_Usuario ='{0}')", ID, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaAmigo.ExecuteReader();
-
-                while (_reader.Read()) { 
-                    UsuarioModelo aux = new UsuarioModelo();
-                    aux.setNombre(_reader.GetString(0));
-                    aux.setFotoUI(_reader.GetString(1));
-                    aux.setID(_reader.GetInt32(2));
-                    listaAmigos.Add(aux);
-                }
-
-                return listaAmigos;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-            
-        public List<UsuarioModelo> todosAmigosEdad(long ID, int edadMinima, int? edadMaxima)
-        {
-            List<UsuarioModelo> listaAmigos = new List<UsuarioModelo>();
-            try
-            {
-                MySqlCommand BuscaAmigo;
-                if(edadMaxima != null)
-                {
-                    BuscaAmigo = new MySqlCommand(String.Format(
-                  "SELECT Nombre, FotoUI, ID FROM Usuario where ID EXISTS (Select ID_Amigo From UsuarioAmigo Where ID_Usu ='{0}') and FechaNacimiento>(NOW()-'{1}') and FechaNacimiento<(NOW()-'{2}') ", ID, edadMinima, edadMaxima, conexion.ObtenerConexion()));
-                }
-                else
-                {
-                    BuscaAmigo = new MySqlCommand(String.Format(
-                 "SELECT Nombre, FotoUI, ID FROM Usuario where ID EXISTS (Select ID_Amigo From UsuarioAmigo Where ID_Usu ='{0}') and FechaNacimiento>(NOW()-'{1}') ", ID, edadMinima, conexion.ObtenerConexion()));
-                }
-                MySqlDataReader _reader = BuscaAmigo.ExecuteReader();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                SqlCommand queryAux = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                queryAux.CommandType = CommandType.Text;
+                query.CommandText = string.Format("Select Distintc IdUsuario From Amigo Where(IdUsuario = '{0}' or IdUsuario = '{1}') and(IdAmigo = '{1}' or IdAmigo = '{0}')", ID, usu.getID());
+                var _reader = query.ExecuteReader();
 
                 while (_reader.Read())
                 {
-                    UsuarioModelo aux = new UsuarioModelo();
-                    aux.setNombre(_reader.GetString(0));
-                    aux.setFotoUI(_reader.GetString(1));
-                    aux.setID(_reader.GetInt32(2));
-                    listaAmigos.Add(aux);
-                }
+                    UsuarioModelo amigo = new UsuarioModelo();
+                    queryAux.CommandText = string.Format("Select Id, NombreUsuario From Usuario Where Id = '{0}'", _reader.GetInt32(0));
+                    var _readerAux = queryAux.ExecuteReader();
+                    _readerAux.Read();
+                    amigo.setID(_readerAux.GetInt32(0));
+                    amigo.setNombre(_readerAux.GetString(1));
+                    listaAmigos.Add(amigo);
+                }            
 
                 return listaAmigos;
             }
@@ -178,55 +141,30 @@ namespace MeetFastGit.Servicios
             {
                 conexion.CerrarConexion();
             }
-        }
+        }        
 
         public List<UsuarioModelo> todosAmigosEvento(long id_usu, long idEvento)
         {
             List<UsuarioModelo> listaAmigos = new List<UsuarioModelo>();
             try
             {
-                MySqlCommand BuscaAmigo = new MySqlCommand(String.Format(
-                  "SELECT ID, Nombre, Foto FROM Usuario  where Usuario.ID EXISTS (Select ID_Amigo FROM UsuarioAmigo wherer UsuarioAmigo.ID_Usu ='{0}') and ID EXISTS (Select ID_Usu from EventoAsistencia where ID_Evento ='{1}')", id_usu, idEvento, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaAmigo.ExecuteReader();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                SqlCommand queryAux = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                queryAux.CommandType = CommandType.Text;
+                query.CommandText = string.Format("Select IdUsuario, IdAmigo From Amigo Where IdUsuario = '{0}' or IdAmigo = '{0}')", id_usu);
+                var _reader = query.ExecuteReader();
 
                 while (_reader.Read())
                 {
-                    UsuarioModelo aux = new UsuarioModelo();
-                    aux.setID(_reader.GetInt32(0));
-                    aux.setNombre(_reader.GetString(1));
-                    aux.setFotoUI(_reader.GetString(2));
-                    listaAmigos.Add(aux);
-                }
-
-                return listaAmigos;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-        public List<UsuarioModelo> todosAmigosLocalidad(long ID, string localidad)
-        {
-            List<UsuarioModelo> listaAmigos = new List<UsuarioModelo>();
-            try
-            {
-                MySqlCommand BuscaAmigo = new MySqlCommand(String.Format(
-                  "SELECT Nombre, Foto, ID FROM Usuario where ID_Usu EXISTS(Select ID_Amigo From UsuarioAmigo Where ID_Usu ='{0}') and localidad ='{1}'", ID, localidad, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaAmigo.ExecuteReader();
-
-                while (_reader.Read())
-                {
-                    UsuarioModelo aux = new UsuarioModelo();
-                    
-                    aux.setNombre(_reader.GetString(0));
-                    aux.setFotoUI(_reader.GetString(1));
-                    aux.setID(_reader.GetInt32(2));
-                    listaAmigos.Add(aux);
+                    UsuarioModelo amigo = new UsuarioModelo();
+                    queryAux.CommandText = string.Format("Select IdUsuario From EventoUsuario Where (IdUsuario = '{0}' ir IdUsuario = '{1}') and IdEvento = '{2}'", _reader.GetInt32(0), _reader.GetInt32(1), idEvento);
+                    var _readerAux = queryAux.ExecuteReader();
+                    _readerAux.Read();
+                    amigo.setID(_readerAux.GetInt32(0));
+                    amigo.setNombre(_readerAux.GetString(1));
+                    listaAmigos.Add(amigo);
                 }
 
                 return listaAmigos;
@@ -247,17 +185,19 @@ namespace MeetFastGit.Servicios
             List<UsuarioModelo> listaAmigos = new List<UsuarioModelo>();
             try
             {
-                MySqlCommand BuscaAmigo = new MySqlCommand(String.Format(
-                  "SELECT Nombre, Foto, ID FROM Usuario  where ID EXISTS (Select ID_Amigo From UsuarioAmigo Where ID_Usu ='{0}') and Nombre LIKE('%{1}%')", ID, nombre, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaAmigo.ExecuteReader();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                query.CommandText = string.Format("SELECT Id, NombreUsuario, FROM Usuario  where Id EXISTS (Select ID_Amigo From UsuarioAmigo Where ID_Usu ='{0}') or " +
+                  "(Select ID_Usu From UsuarioAmigo Where ID_Amigo ='{0}') and NombreUsuario LIKE('%{1}%')", ID, nombre);
+                var _reader = query.ExecuteReader();
 
                 while (_reader.Read())
                 {
                     UsuarioModelo aux = new UsuarioModelo();
                     
-                    aux.setNombre(_reader.GetString(0));
-                    aux.setFotoUI(_reader.GetString(1));
-                    aux.setID(_reader.GetInt32(2)); ;
+                    aux.setNombre(_reader.GetString(1));
+                    aux.setID(_reader.GetInt32(0)); ;
                     listaAmigos.Add(aux);
                 }
 
@@ -272,252 +212,18 @@ namespace MeetFastGit.Servicios
             {
                 conexion.CerrarConexion();
             }
-        }
-
-        public List<UsuarioModelo> todosUsuarios()
-        {
-            List<UsuarioModelo> listaUsuaios = new List<UsuarioModelo>();
-            try
-            {
-                MySqlCommand BuscaAmigo = new MySqlCommand(String.Format(
-                  "SELECT Nombre, Foto, ID FROM Usuario", conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaAmigo.ExecuteReader();
-
-                while (_reader.Read())
-                {
-                    UsuarioModelo aux = new UsuarioModelo();
-                    aux.setNombre(_reader.GetString(0));
-                    aux.setFotoUI(_reader.GetString(1));
-                    aux.setID(_reader.GetInt32(2)); ;
-                    listaUsuaios.Add(aux);
-                }
-
-                return listaUsuaios;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public List<UsuarioModelo> todosUsuariosEdad(int edadMinima, int? edadMaxima)
-        {
-            List<UsuarioModelo> listaUsuarios = new List<UsuarioModelo>();
-            try
-            {
-                MySqlCommand BuscaAmigo;
-                if (edadMaxima!=null)
-                {
-                   BuscaAmigo = new MySqlCommand(String.Format(
-                 "SELECT Nombre, Foto, ID FROM Usuario Where FechaNacimiento>(NOW()-'{0}') and FechaNacimiento<(NOW()-'{1}')", edadMinima, edadMaxima, conexion.ObtenerConexion()));                   
-                }
-                else
-                {
-                    BuscaAmigo = new MySqlCommand(String.Format(
-                 "SELECT Nombre, Foto, ID FROM Usuario Where FechaNacimiento>(NOW()-'{0}'))",edadMinima, conexion.ObtenerConexion()));                   
-                }
-
-                MySqlDataReader _reader = BuscaAmigo.ExecuteReader();
-                while (_reader.Read())
-                {
-                    UsuarioModelo aux = new UsuarioModelo();
-                    aux.setNombre(_reader.GetString(0));
-                    aux.setFotoUI(_reader.GetString(1));
-                    aux.setID(_reader.GetInt32(2)); ;
-                    listaUsuarios.Add(aux);
-                }
-
-                return listaUsuarios;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public List<UsuarioModelo> todosUsuariosEvento(long idEvento)
-        {
-            List<UsuarioModelo> listaUsuarios = new List<UsuarioModelo>();
-            try
-            {
-                MySqlCommand BuscaUsuario = new MySqlCommand(String.Format(
-                  "SELECT ID, Nombre, Foto FROM Usuario where Usuario.ID EXISTS (Select ID_Usu FROM EventoAsistencia where ID_Evento ='{0}')", idEvento, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaUsuario.ExecuteReader();
-
-                while (_reader.Read())
-                {
-                    UsuarioModelo aux = new UsuarioModelo();
-                    aux.setID(_reader.GetInt32(0));
-                    aux.setNombre(_reader.GetString(1));
-                    aux.setFotoUI(_reader.GetString(2));
-                    listaUsuarios.Add(aux);
-                }
-
-                return listaUsuarios;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public List<UsuarioModelo> todosUsuariosInteres(List<InteresModelo> interes)
-        {
-            List<UsuarioModelo> listaUsuarios = new List<UsuarioModelo>();
-            try
-            {
-                string interesTipo = "";
-                MySqlCommand BuscaUsuario;
-                bool unico = true;
-                foreach (var item in interes)
-                {
-                    interesTipo = item.getTipo();
-                    BuscaUsuario = new MySqlCommand(String.Format(
-                  "SELECT ID, Nombre, Foto FROM Usuario where Usuario.ID EXISTS (Select ID_Usu FROM UsuarioInteres where ID_Interes ='{0}')", interesTipo, conexion.ObtenerConexion()));
-                    MySqlDataReader _reader = BuscaUsuario.ExecuteReader();
-                    while (_reader.Read())
-                    {
-                        foreach (var ids in listaUsuarios)
-                        {
-                            if(ids.getID() == _reader.GetInt32(0))
-                            {
-                                unico = false;
-                                break;
-                            }
-                        }
-                        if (unico)
-                        {
-                            UsuarioModelo aux = new UsuarioModelo();
-                            aux.setID(_reader.GetInt32(0));
-                            aux.setNombre(_reader.GetString(1));
-                            aux.setFotoUI(_reader.GetString(2));
-                            listaUsuarios.Add(aux);
-                        }
-                        unico = true;   
-                    }
-                }
-
-                return listaUsuarios;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-
-        }
-
-        public List<UsuarioModelo> todosUsuariosLocalidad(string localidad)
-        {
-            List<UsuarioModelo> listaUsuarios = new List<UsuarioModelo>();
-            try
-            {
-                MySqlCommand BuscaUsuario = new MySqlCommand(String.Format(
-                  "SELECT ID, Nombre, Foto FROM Usuario where localidad ='{0}'", localidad, conexion.ObtenerConexion()));
-                MySqlDataReader _reader = BuscaUsuario.ExecuteReader();
-
-                while (_reader.Read())
-                {
-                    UsuarioModelo aux = new UsuarioModelo();
-                    aux.setID(_reader.GetInt32(0));
-                    aux.setNombre(_reader.GetString(1));
-                    aux.setFotoUI(_reader.GetString(2));
-                    listaUsuarios.Add(aux);
-                }
-
-                return listaUsuarios;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public void updateFotoUsuario(long id, string fotoUI)
-        {
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Usuario SET Foto = '{0}' WHERE ID_Usu == '{1}';)",
-                fotoUI, id, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public void updateContraseñaUsuario(long id, string contraseña)
-        {
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Usuario SET contraseña = '{0}' WHERE ID_Usu == '{1}';)",
-                contraseña, id, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
-        public void updateLocalidadUsuario(long id, string localidad)
-        {
-            try
-            {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Usuario SET localidad = '{0}' WHERE ID_Usu == '{1}';)",
-                localidad, id, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                conexion.CerrarConexion();
-            }
-        }
-
+        }      
+        
         public void updateTelefonoUsuario(long id, string telefono)
         {
             try
             {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Usuario SET telefono = '{0}' WHERE ID_Usu == '{1}';)",
-                telefono, id, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                query.CommandText = string.Format("UPDATE Usuario SET Telefono = '{0}' WHERE Id = '{1}')", telefono, id);
+
+                query.ExecuteNonQuery();
             }
             catch (SqlException e)
             {
@@ -533,9 +239,12 @@ namespace MeetFastGit.Servicios
         {
             try
             {
-                MySqlCommand comando = new MySqlCommand(string.Format("UPDATE Usuario SET Nombre = '{0}' WHERE ID_Usu == '{1}';)",
-                nombre, id, conexion.ObtenerConexion()));
-                comando.ExecuteNonQuery();
+                var con = conexion.ObtenerConexion();
+                SqlCommand query = con.CreateCommand();
+                query.CommandType = CommandType.Text;
+                query.CommandText = string.Format("UPDATE Usuario SET NombreUsuario = '{0}' WHERE Id = '{1}')", nombre, id);
+
+                query.ExecuteNonQuery();
             }
             catch (SqlException e)
             {

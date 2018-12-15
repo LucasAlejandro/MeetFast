@@ -1,8 +1,8 @@
-﻿using MeetFastGit.Models;
+﻿using Infraestructura.Models;
 using System;
 using System.Collections.Generic;
 
-namespace MeetFastGit.Servicios.Interfaces
+namespace servicios.Interfaces.Servicios
 {
     public interface IComentarioService
     {

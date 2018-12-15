@@ -46,7 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConexionBD.cs" />
+    <Compile Include="Models\ComentarioModelo.cs" />
+    <Compile Include="Models\EventoModel.cs" />
+    <Compile Include="Models\HistoriaModelo.cs" />
+    <Compile Include="Models\InteresModelo.cs" />
+    <Compile Include="Models\MensajeModelo.cs" />
+    <Compile Include="Models\UsuarioModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

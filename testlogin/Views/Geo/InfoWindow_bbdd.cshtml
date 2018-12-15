@@ -28,15 +28,19 @@
             });
 
             $.get("@Url.Action("GetAllLocation","Geo")", function (data, status) {
+                console.log(data);
+                var objeto = JSON.parse(data);
+                console.log(objeto[0]);
+                
                 var marker = [];
                 var contentString = [];
                 var infoVentana = [];
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < objeto.length; i++) {
 
                     marker[i] = new google.maps.Marker({
-                        position: { lat: data[i].Lat, lng: data[i].Long },
+                        position: { lat: parseFloat(objeto[i].latitud), lng: parseFloat(objeto[i].longitud) },
                         map: map,
-                        title: data[i].Name
+                        title: objeto[i].nombre
 
                     });
                     contentString[i] = '<div id="content">' +
@@ -44,7 +48,7 @@
                         '</div>' +
                         '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
                         '<div id="bodyContent">' +
-                        '<p><b>' + data[i].TipoEvento + 'Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+                        '<p><b>' + objeto[i].tematica + 'Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
                         'sandstone rock formation in the southern part of the ' +
                         'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) ' +
                         'south west of the nearest large town, Alice Springs; 450&#160;km ' +
