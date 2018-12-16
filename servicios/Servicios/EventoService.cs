@@ -81,7 +81,7 @@ namespace servicios.Servicios
                 query.CommandType = CommandType.Text;
                 queryTematica.CommandType = CommandType.Text;
 
-                query.CommandText = string.Format("SELECT * From Evento Where Fecha_Evento > getdate()");
+                query.CommandText = string.Format("SELECT * From Evento Where Fecha_Evento > getdate() and Visibilidad != 'Privado'");
                 var _reader = query.ExecuteReader();
 
                 while (_reader.Read())
