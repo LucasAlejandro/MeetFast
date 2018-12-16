@@ -19,7 +19,7 @@ namespace servicios.Servicios
                 SqlCommand query = con.CreateCommand();
 
                 query.CommandType = CommandType.Text;
-                query.CommandText = string.Format("Insert into UsuarioEvento (IdUsuario, IdEvento) Values('{0}', '{1}')", asistente.getID(), IdEvento);
+                query.CommandText = string.Format("Insert into UsuarioEvento (IdUsuario, IdEvento) Values({0}, {1})", asistente.getID(), IdEvento);
                 query.ExecuteNonQuery();
 
             }
@@ -52,8 +52,9 @@ namespace servicios.Servicios
                 var fechaActual = DateTime.Today;
                 SqlCommand query = con.CreateCommand();
                 query.CommandType = CommandType.Text;
-
-                query.CommandText = string.Format("Insert into Evento (TipoEvento, Lat, Long, Name, Descripcion, Fecha_Creacion,Fecha_Evento, Visibilidad, Creador) values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
+                
+                query.CommandText = string.Format("Insert into Evento (TipoEvento, Lat, Long, Name, Descripcion, Fecha_Creacion,Fecha_Evento, Visibilidad, Creador) " +
+                    "values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
                     evento.getTematica(), evento.getLatitud(), evento.getLongitud(), evento.getNombre(), evento.getDescripcion(), fechaActual, evento.getFechaEvento(), visibilidad, creador );
                 query.ExecuteNonQuery();
 
@@ -80,7 +81,7 @@ namespace servicios.Servicios
                 query.CommandType = CommandType.Text;
                 queryTematica.CommandType = CommandType.Text;
 
-                query.CommandText = string.Format("Select * From Evento");
+                query.CommandText = string.Format("SELECT * From Evento Where Fecha_Evento > getdate()");
                 var _reader = query.ExecuteReader();
 
                 while (_reader.Read())
