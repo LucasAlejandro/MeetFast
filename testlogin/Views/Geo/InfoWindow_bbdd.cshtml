@@ -40,6 +40,9 @@
                     var valores = new Array(evento.length);
                     for (var j = 0; j < evento.length; j++) {
                         var campo = evento[j].split(":");
+                        if (campo[0] == "latitud" || campo[0] == "longitud") {
+                            campo[1] = campo[1].replace(",", ".");
+                        }
                         valores[j] = campo[1];
                     }
                     todosEventos[i] = valores;

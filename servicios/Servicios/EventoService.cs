@@ -49,12 +49,12 @@ namespace servicios.Servicios
 
 
                 var con = conexion.ObtenerConexion();
-
+                var fechaActual = DateTime.Today;
                 SqlCommand query = con.CreateCommand();
                 query.CommandType = CommandType.Text;
 
-                query.CommandText = string.Format("Insert into Evento (TipoEvento, Lat, Long, Name, Descripcion, Fecha_Evento, Visibilidad, Creador) values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
-                    evento.getTematica(), evento.getLatitud(), evento.getLongitud(), evento.getNombre(), evento.getDescripcion(), evento.getFechaEvento(), visibilidad, creador );
+                query.CommandText = string.Format("Insert into Evento (TipoEvento, Lat, Long, Name, Descripcion, Fecha_Creacion,Fecha_Evento, Visibilidad, Creador) values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
+                    evento.getTematica(), evento.getLatitud(), evento.getLongitud(), evento.getNombre(), evento.getDescripcion(), fechaActual, evento.getFechaEvento(), visibilidad, creador );
                 query.ExecuteNonQuery();
 
             }
