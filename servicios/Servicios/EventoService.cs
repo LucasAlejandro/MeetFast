@@ -78,6 +78,7 @@ namespace servicios.Servicios
                 SqlCommand queryTematica = con.CreateCommand();
 
                 query.CommandType = CommandType.Text;
+                queryTematica.CommandType = CommandType.Text;
 
                 query.CommandText = string.Format("Select * From Evento");
                 var _reader = query.ExecuteReader();
@@ -87,8 +88,13 @@ namespace servicios.Servicios
                     EventoModel aux = new EventoModel();
                     aux.setID(_reader.GetInt32(0));
                     //_reader.Read();
-                    var tipo = int.Parse(_reader[1].ToString());
-                    //aux.setTematica(tipo.ToString());
+                    var tipo = _reader[1].ToString();
+
+                    //queryTematica.CommandText = string.Format("Select Nombre From TipoEvento Where Id='{0}'", tipo);
+                    //var _readerTematica = queryTematica.ExecuteReader();
+                    //_readerTematica.Read();
+
+                    aux.setTematica(tipo);
                     //_reader.Read();
                     aux.setLatitud(float.Parse(_reader[2].ToString()));
                     aux.setLongitud(float.Parse(_reader[3].ToString()));
@@ -100,8 +106,23 @@ namespace servicios.Servicios
                     aux.setCreador(int.Parse(_reader[9].ToString()));
                     listaEventos.Add(aux);
                 }
+                if (_reader.IsClosed)
+                {
 
+                }
+                else
+                {
+                    _reader.Close();
+                }
+                foreach (var item in listaEventos)
+                {
 
+                    queryTematica.CommandText = string.Format("Select Nombre From TipoEvento Where Id='{0}'", item.getTematica());
+                    var _readerTematica = queryTematica.ExecuteReader();
+                    _readerTematica.Read();
+                    item.setTematica(_readerTematica[0].ToString());
+                    _readerTematica.Close();
+                }
                 return listaEventos;
             }
             catch (SqlException e)
@@ -149,6 +170,8 @@ namespace servicios.Servicios
                     aux.setCreador(_reader.GetInt32(9));
                     listaEventos.Add(aux);
                 }
+
+
 
                 return listaEventos;
             }

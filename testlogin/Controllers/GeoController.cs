@@ -40,32 +40,25 @@ namespace mapsAPI.Controllers
             return View();
         }
 
-        public JsonResult GetAllLocation() {
+        public string GetAllLocation() {
             try
             {
                 var data = context.getEventos();
-                string cadena = "{ 'Eventos':[";
-                int contador = 0;
+                string cadena = "";
                 foreach (var probando in data)
                 {
-                    contador++;
                     var nombre = probando.getNombre();
                     var latitud = probando.getLatitud();
                     var longitud = probando.getLongitud();
                     var descripcion = probando.getDescripcion();
                     var tematica = probando.getTematica();
-                    string eventoNuevo = ("{'nombre': " + nombre + ";'latitud': '" + latitud + "';'longitud': '" + longitud + "';'descripcion': '" + descripcion + "';'tematica': '" + tematica + "'}");
-                    if (contador < data.Count())
-                    {
-                        eventoNuevo += "/";
-                    }
+                    string eventoNuevo = "nombre:"+nombre+"/latitud:"+latitud+"/longitud:"+longitud+"/descripcion:"+descripcion+"/tematica:"+tematica+";";
                     cadena += eventoNuevo;
                 }
-                cadena += "]}";
-                var datos = Json(cadena, JsonRequestBehavior.AllowGet);
+                //var datos = Json(cadena, JsonRequestBehavior.AllowGet);
                 //var datos = Json(data, JsonRequestBehavior.AllowGet);
                 var js = new JavaScriptSerializer().Serialize(data);
-                return datos;
+                return cadena;
             }
             catch (Exception e)
             {

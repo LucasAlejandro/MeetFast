@@ -28,19 +28,34 @@
             });
 
             $.get("@Url.Action("GetAllLocation","Geo")", function (data, status) {
-                console.log(data);
-                var objeto = JSON.parse(data);
-                console.log(objeto[0]);
-                
+                //var objeto = JSON.parse(data);
+                //console.log(objeto[0]);
+
+                var eventos = data.split(";");
+                eventos.pop();
+                var todosEventos = new Array(eventos.length);
+                for (var i = 0; i < eventos.length; i++) {
+                    
+                    var evento = eventos[i].split("/");
+                    var valores = new Array(evento.length);
+                    for (var j = 0; j < evento.length; j++) {
+                        var campo = evento[j].split(":");
+                        valores[j] = campo[1];
+                    }
+                    todosEventos[i] = valores;
+                }
+                console.log(todosEventos[0].length);
                 var marker = [];
                 var contentString = [];
                 var infoVentana = [];
-                for (var i = 0; i < objeto.length; i++) {
 
+                for (var i = 0; i < todosEventos[0].length; i++) {
+                    var auxiliar = todosEventos[i];
+                    console.log(auxiliar[2]);
                     marker[i] = new google.maps.Marker({
-                        position: { lat: parseFloat(objeto[i].latitud), lng: parseFloat(objeto[i].longitud) },
+                        position: { lat: parseFloat(auxiliar[1]), lng: parseFloat(auxiliar[2]) },
                         map: map,
-                        title: objeto[i].nombre
+                        title: auxiliar[0]
 
                     });
                     contentString[i] = '<div id="content">' +
@@ -48,7 +63,7 @@
                         '</div>' +
                         '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
                         '<div id="bodyContent">' +
-                        '<p><b>' + objeto[i].tematica + 'Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+                        '<p><b>' + auxiliar[4] + 'Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
                         'sandstone rock formation in the southern part of the ' +
                         'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) ' +
                         'south west of the nearest large town, Alice Springs; 450&#160;km ' +
