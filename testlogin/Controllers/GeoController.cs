@@ -57,7 +57,7 @@ namespace mapsAPI.Controllers
                 }
                 //var datos = Json(cadena, JsonRequestBehavior.AllowGet);
                 //var datos = Json(data, JsonRequestBehavior.AllowGet);
-                var js = new JavaScriptSerializer().Serialize(data);
+                //var js = new JavaScriptSerializer().Serialize(data);
                 return cadena;
             }
             catch (Exception e)

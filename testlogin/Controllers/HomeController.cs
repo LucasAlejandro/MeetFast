@@ -1,8 +1,11 @@
-﻿using System;
+﻿using servicios.Servicios;
+using Infraestructura.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace testlogin.Controllers
 {
@@ -30,5 +33,15 @@ namespace testlogin.Controllers
 
             return View();
         }
+
+        EventoService context = new EventoService();
+        public ActionResult InsertarEvento(EventoModel evento)
+        {
+            Console.WriteLine(evento.ToString());
+            context.addEvento(evento,1);
+
+            return RedirectToAction("Contact");
+        }
+
     }
 }
