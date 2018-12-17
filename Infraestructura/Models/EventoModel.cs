@@ -9,17 +9,17 @@ namespace Infraestructura.Models
     public class EventoModel
     {
         private long id;
-        private string tematica;
+        public string tematica;
         private bool privado;
         //private DateTime fechaCreacion;
-        private DateTime fechaEvento;
-        private float latitud;
-        private float longitud;
+        public DateTime fechaEvento;
+        public float latitud;
+        public float longitud;
         //private List<ComentarioModel> comentarios;
         //private List<UsuarioModelo> asistentes;
         private long idCreador;
-        private string nombre;
-        private string descripcion;
+        public string nombre;
+        public string descripcion;
 
         public EventoModel(string nombre, string tematica, bool privado, DateTime fCreacion, DateTime fEvento, float latitud, float longitud, long idCreador)
         {

@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
-@if ((Request.IsAuthenticated) == (false))
+
+@model  Infraestructura.Models.EventoModel
+
+@if ((Request.IsAuthenticated) == (true))
 {
     {
         ViewBag.Title = "Contact";
@@ -22,7 +25,42 @@
 else
 {
     {
-        ViewBag.Title = "Ajustes";
+        ViewBag.Title = "Crear Evento";
     }
-    <h2>@ViewBag.Title.</h2>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+    <div class="container">
+        @using (Html.BeginForm("InsertarEvento", "Home", FormMethod.Post))
+        {
+       
+          
+            <label>Lat</label>
+            @Html.TextBoxFor(model => model.latitud);
+            <label>Long</label>
+            @Html.TextBoxFor(model => model.longitud);
+            <label>Name</label>
+            @Html.TextBoxFor(model => model.nombre);
+            <label>TipoEvento</label>
+
+            @Html.TextBoxFor(model => model.tematica);
+         
+            <label>Descripcion</label>
+            @Html.TextBoxFor(model => model.descripcion);
+            <label>Fecha_Evento</label>
+            @Html.TextBoxFor(model => model.fechaEvento);
+
+            <input type="submit" value="Crear" class="btn btn-default" />
+        }
+
+    </div>
 }
