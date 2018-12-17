@@ -13,11 +13,176 @@
 }
 else
 {
-    <h2>Ventana inicio - usuario sin "(registrar /iniciar session)"</h2>
-    //{
-    //    Layout = "~/Views/Shared/_Layout_Contact.cshtml";
+    @model testlogin.Models.EventoInsert
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
-    //}
+
+<div class="container contact-form">
+    <div class=" row">
+
+        <div class=" col-sm-12">
+            </div>
+
+    </div>
+    <div class="contact-form">
+       
+        @using (Html.BeginForm("GuardarEvento", "Home", FormMethod.Post))
+        {
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    
+                        <img class="" src="https://cdn0.iconfinder.com/data/icons/kirrkle-maps-and-navigation/60/10_-_Map_marker-512.png" alt="rocket_contact" style="width:100px;;margin-left:15%;" />
+                        <img  src="https://cdn.pixabay.com/photo/2013/07/12/12/29/arrow-145781_960_720.png" alt="rocket_contact" style="width:100px;margin-left:40%;" />
+
+                   
+                    <div class="form-group">
+
+
+                        @Html.TextBoxFor(model => model.Lat, "", new { @class = "form-control", @placeholder = "Latitud", @id = "latitud" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Long, "", new { @class = "form-control", @placeholder = "Longitud", @id = "longitud" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Name, "", new { @class = "form-control", @placeholder = "Nombre" })
+
+                    </div>
+                    <div class="form-group">
+                        <label>TipoEvento</label>
+                        @Html.DropDownListFor(model => model.TipoEvento, ViewBag.TipoEventoLista as SelectList, "--select--", new { @class = "form-control" })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", @placeholder = "Descripcion" })
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha_Evento</label>
+
+                        @Html.TextBoxFor(model => model.Fecha_Evento, "", new { @class = "", type = "date" })
+
+
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Crear" class="btn btn-default" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="text-center">Ubica tu evento en el mapa</h3>
+                    <div class="form-group">
+                        <div id="floating-panel" class="form-inline">
+                            <input id="address" class="form-control" type="text" value="CIFP CarlosIII ,Cartagena">
+                            <input id="submit" class="form-control btn btn-success" type="button" value="Buscar">
+                        </div>
+                        <div id="map"></div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        }
+
+    </div>
+</div>
+
+<script>
+
+    window.onload(function () {
+
+
+    });
+    //iniciamos mapa con coordenadas por defecto//
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: { lat: -34.397, lng: 150.644 }
+        });
+
+        //creamoas GEOCODER y le agregamos un ActionListener
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+
+        });
+    }
+    //a partir de la direccion introducida buscamos coincidencias de google maps,
+    //lo cual nos devolvera un array con coincidencias en el que cojeremos el primer elementop
+    var latitud = 0;
+    var longitud=0;
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            //si existe esa direccion
+            if (status === 'OK') {
+                //va hasta marcador //
+                resultsMap.setCenter(results[0].geometry.location);
+                latitud = results[0].geometry.location.lat();
+                latitud = latitud.toString().replace(".", ",");
+                longitud = results[0].geometry.location.lng();
+                longitud = longitud.toString().replace(".", ",");
+                document.getElementById("latitud").value = latitud;
+                document.getElementById("longitud").value = longitud;
+
+
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+
+                console.log("entra");
+
+            } else {
+                //sino
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+
+        });
+
+
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALkm0kVQkpCFu2G6KbXft7F9nAG120eYI&callback=initMap"
+        async defer></script>
+
+<style>
+    /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin-top: 50px;
+        padding: 20px;
+    }
+
+    /*#floating-panel {
+        
+       
+        background-color: red;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding: 10px;
+    }*/
+</style>
 
 }

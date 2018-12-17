@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="meetfastModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Amigo">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdAmigo" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IdAmigo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Evento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoEvento" Type="int" Nullable="false" />
+          <Property Name="Lat" Type="float" Nullable="false" />
+          <Property Name="Long" Type="float" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="300" />
+          <Property Name="Fecha_Creacion" Type="datetime" />
+          <Property Name="Fecha_Evento" Type="datetime" />
+          <Property Name="Visibilidad" Type="nvarchar" MaxLength="15" />
+          <Property Name="Creador" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Interes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="TipoInteres" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoEvento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoInteres">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailConfirmado" Type="bit" Nullable="false" />
+          <Property Name="TelefonoConfirmado" Type="bit" Nullable="false" />
+          <Property Name="NombreUsuario" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="9" />
+        </EntityType>
+        <EntityType Name="UsuarioEvento">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdEvento" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IdEvento" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsuarioInteres">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+            <PropertyRef Name="idInteres" />
+          </Key>
+          <Property Name="idUsuario" Type="int" Nullable="false" />
+          <Property Name="idInteres" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Amigo__IdAmigo__71D1E811">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Amigo" Type="Self.Amigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Amigo">
+              <PropertyRef Name="IdAmigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Amigo__IdUsuario__70DDC3D8">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Amigo" Type="Self.Amigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Amigo">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Evento__Creador__6A30C649">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evento">
+              <PropertyRef Name="Creador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Evento__TipoEven__5DCAEF64">
+          <End Role="TipoEvento" Type="Self.TipoEvento" Multiplicity="1" />
+          <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoEvento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evento">
+              <PropertyRef Name="TipoEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Interes__TipoInt__628FA481">
+          <End Role="TipoInteres" Type="Self.TipoInteres" Multiplicity="1" />
+          <End Role="Interes" Type="Self.Interes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoInteres">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Interes">
+              <PropertyRef Name="TipoInteres" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UsuarioEv__IdEve__6E01572D">
+          <End Role="Evento" Type="Self.Evento" Multiplicity="1" />
+          <End Role="UsuarioEvento" Type="Self.UsuarioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Evento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioEvento">
+              <PropertyRef Name="IdEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UsuarioEv__IdUsu__6D0D32F4">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="UsuarioEvento" Type="Self.UsuarioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioEvento">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UsuarioIn__idInt__66603565">
+          <End Role="Interes" Type="Self.Interes" Multiplicity="1" />
+          <End Role="UsuarioInteres" Type="Self.UsuarioInteres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Interes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioInteres">
+              <PropertyRef Name="idInteres" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UsuarioIn__idUsu__656C112C">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="UsuarioInteres" Type="Self.UsuarioInteres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioInteres">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="meetfastModelStoreContainer">
+          <EntitySet Name="Amigo" EntityType="Self.Amigo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Evento" EntityType="Self.Evento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Interes" EntityType="Self.Interes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoEvento" EntityType="Self.TipoEvento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoInteres" EntityType="Self.TipoInteres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsuarioEvento" EntityType="Self.UsuarioEvento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsuarioInteres" EntityType="Self.UsuarioInteres" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Amigo__IdAmigo__71D1E811" Association="Self.FK__Amigo__IdAmigo__71D1E811">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Amigo" EntitySet="Amigo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Amigo__IdUsuario__70DDC3D8" Association="Self.FK__Amigo__IdUsuario__70DDC3D8">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Amigo" EntitySet="Amigo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Evento__Creador__6A30C649" Association="Self.FK__Evento__Creador__6A30C649">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Evento" EntitySet="Evento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Evento__TipoEven__5DCAEF64" Association="Self.FK__Evento__TipoEven__5DCAEF64">
+            <End Role="TipoEvento" EntitySet="TipoEvento" />
+            <End Role="Evento" EntitySet="Evento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Interes__TipoInt__628FA481" Association="Self.FK__Interes__TipoInt__628FA481">
+            <End Role="TipoInteres" EntitySet="TipoInteres" />
+            <End Role="Interes" EntitySet="Interes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UsuarioEv__IdEve__6E01572D" Association="Self.FK__UsuarioEv__IdEve__6E01572D">
+            <End Role="Evento" EntitySet="Evento" />
+            <End Role="UsuarioEvento" EntitySet="UsuarioEvento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UsuarioEv__IdUsu__6D0D32F4" Association="Self.FK__UsuarioEv__IdUsu__6D0D32F4">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="UsuarioEvento" EntitySet="UsuarioEvento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UsuarioIn__idInt__66603565" Association="Self.FK__UsuarioIn__idInt__66603565">
+            <End Role="Interes" EntitySet="Interes" />
+            <End Role="UsuarioInteres" EntitySet="UsuarioInteres" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UsuarioIn__idUsu__656C112C" Association="Self.FK__UsuarioIn__idUsu__656C112C">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="UsuarioInteres" EntitySet="UsuarioInteres" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="meetfastModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Evento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoEvento" Type="Int32" Nullable="false" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Long" Type="Double" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha_Creacion" Type="DateTime" Precision="3" />
+          <Property Name="Fecha_Evento" Type="DateTime" Precision="3" />
+          <Property Name="Visibilidad" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Creador" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Evento__Creador__6A30C649" FromRole="Evento" ToRole="Usuario" />
+          <NavigationProperty Name="TipoEvento1" Relationship="Self.FK__Evento__TipoEven__5DCAEF64" FromRole="Evento" ToRole="TipoEvento" />
+          <NavigationProperty Name="Usuario1" Relationship="Self.UsuarioEvento" FromRole="Evento" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Interes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TipoInteres" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TipoInteres1" Relationship="Self.FK__Interes__TipoInt__628FA481" FromRole="Interes" ToRole="TipoInteres" />
+          <NavigationProperty Name="Usuario" Relationship="Self.UsuarioInteres" FromRole="Interes" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="TipoEvento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Evento" Relationship="Self.FK__Evento__TipoEven__5DCAEF64" FromRole="TipoEvento" ToRole="Evento" />
+        </EntityType>
+        <EntityType Name="TipoInteres">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Interes" Relationship="Self.FK__Interes__TipoInt__628FA481" FromRole="TipoInteres" ToRole="Interes" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailConfirmado" Type="Boolean" Nullable="false" />
+          <Property Name="TelefonoConfirmado" Type="Boolean" Nullable="false" />
+          <Property Name="NombreUsuario" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Evento" Relationship="Self.FK__Evento__Creador__6A30C649" FromRole="Usuario" ToRole="Evento" />
+          <NavigationProperty Name="Usuario1" Relationship="Self.Amigo" FromRole="Usuario" ToRole="Usuario1" />
+          <NavigationProperty Name="Usuario2" Relationship="Self.Amigo" FromRole="Usuario1" ToRole="Usuario" />
+          <NavigationProperty Name="Evento1" Relationship="Self.UsuarioEvento" FromRole="Usuario" ToRole="Evento" />
+          <NavigationProperty Name="Interes" Relationship="Self.UsuarioInteres" FromRole="Usuario" ToRole="Interes" />
+        </EntityType>
+        <Association Name="FK__Evento__Creador__6A30C649">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evento">
+              <PropertyRef Name="Creador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Evento__TipoEven__5DCAEF64">
+          <End Role="TipoEvento" Type="Self.TipoEvento" Multiplicity="1" />
+          <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoEvento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Evento">
+              <PropertyRef Name="TipoEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Interes__TipoInt__628FA481">
+          <End Role="TipoInteres" Type="Self.TipoInteres" Multiplicity="1" />
+          <End Role="Interes" Type="Self.Interes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoInteres">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Interes">
+              <PropertyRef Name="TipoInteres" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Amigo">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <End Role="Usuario1" Type="Self.Usuario" Multiplicity="*" />
+        </Association>
+        <Association Name="UsuarioEvento">
+          <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+        </Association>
+        <Association Name="UsuarioInteres">
+          <End Role="Interes" Type="Self.Interes" Multiplicity="*" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="meetfastEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Evento" EntityType="Self.Evento" />
+          <EntitySet Name="Interes" EntityType="Self.Interes" />
+          <EntitySet Name="TipoEvento" EntityType="Self.TipoEvento" />
+          <EntitySet Name="TipoInteres" EntityType="Self.TipoInteres" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__Evento__Creador__6A30C649" Association="Self.FK__Evento__Creador__6A30C649">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Evento" EntitySet="Evento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Evento__TipoEven__5DCAEF64" Association="Self.FK__Evento__TipoEven__5DCAEF64">
+            <End Role="TipoEvento" EntitySet="TipoEvento" />
+            <End Role="Evento" EntitySet="Evento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Interes__TipoInt__628FA481" Association="Self.FK__Interes__TipoInt__628FA481">
+            <End Role="TipoInteres" EntitySet="TipoInteres" />
+            <End Role="Interes" EntitySet="Interes" />
+          </AssociationSet>
+          <AssociationSet Name="Amigo" Association="Self.Amigo">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Usuario1" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="UsuarioEvento" Association="Self.UsuarioEvento">
+            <End Role="Evento" EntitySet="Evento" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="UsuarioInteres" Association="Self.UsuarioInteres">
+            <End Role="Interes" EntitySet="Interes" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="meetfastModelStoreContainer" CdmEntityContainer="meetfastEntities2">
+          <EntitySetMapping Name="Evento">
+            <EntityTypeMapping TypeName="meetfastModel.Evento">
+              <MappingFragment StoreEntitySet="Evento">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoEvento" ColumnName="TipoEvento" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
+                <ScalarProperty Name="Fecha_Evento" ColumnName="Fecha_Evento" />
+                <ScalarProperty Name="Visibilidad" ColumnName="Visibilidad" />
+                <ScalarProperty Name="Creador" ColumnName="Creador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Interes">
+            <EntityTypeMapping TypeName="meetfastModel.Interes">
+              <MappingFragment StoreEntitySet="Interes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="TipoInteres" ColumnName="TipoInteres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoEvento">
+            <EntityTypeMapping TypeName="meetfastModel.TipoEvento">
+              <MappingFragment StoreEntitySet="TipoEvento">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoInteres">
+            <EntityTypeMapping TypeName="meetfastModel.TipoInteres">
+              <MappingFragment StoreEntitySet="TipoInteres">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="meetfastModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmailConfirmado" ColumnName="EmailConfirmado" />
+                <ScalarProperty Name="TelefonoConfirmado" ColumnName="TelefonoConfirmado" />
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Amigo" TypeName="meetfastModel.Amigo" StoreEntitySet="Amigo">
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="Id" ColumnName="IdAmigo" />
+            </EndProperty>
+            <EndProperty Name="Usuario1">
+              <ScalarProperty Name="Id" ColumnName="IdUsuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UsuarioEvento" TypeName="meetfastModel.UsuarioEvento" StoreEntitySet="UsuarioEvento">
+            <EndProperty Name="Evento">
+              <ScalarProperty Name="Id" ColumnName="IdEvento" />
+            </EndProperty>
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="Id" ColumnName="IdUsuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UsuarioInteres" TypeName="meetfastModel.UsuarioInteres" StoreEntitySet="UsuarioInteres">
+            <EndProperty Name="Interes">
+              <ScalarProperty Name="Id" ColumnName="idInteres" />
+            </EndProperty>
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="Id" ColumnName="idUsuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -226,10 +226,41 @@
       <DependentUpon>testEventos.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Evento.cs">
+      <DependentUpon>EventoModel1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventoInsert.cs" />
+    <Compile Include="Models\EventoModel1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventoModel1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventoModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventoModel1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventoModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventoModel1.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Interes.cs">
+      <DependentUpon>EventoModel1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TipoEvento.cs">
+      <DependentUpon>EventoModel1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TipoInteres.cs">
+      <DependentUpon>EventoModel1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>EventoModel1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1671,6 +1702,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\EventoModel1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EventoModel1.edmx</DependentUpon>
+      <LastGenOutput>EventoModel1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EventoModel1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EventoModel1.edmx</DependentUpon>
+      <LastGenOutput>EventoModel1.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\Contact\scss\grayscale.scss" />
@@ -1747,6 +1788,13 @@
     </EntityDeploy>
     <Content Include="datos\testEventos.edmx.diagram">
       <DependentUpon>testEventos.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\EventoModel1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EventoModel1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EventoModel1.edmx.diagram">
+      <DependentUpon>EventoModel1.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\aversifunciona - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

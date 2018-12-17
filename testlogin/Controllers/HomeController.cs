@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using testlogin.Models;
 
 namespace testlogin.Controllers
 {
@@ -13,6 +13,9 @@ namespace testlogin.Controllers
     {
         public ActionResult Index()
         {
+            meetfastEntities2 db = new meetfastEntities2();
+            List<TipoEvento> list = db.TipoEvento.ToList();
+            ViewBag.TipoEventoLista = new SelectList(list, "Id", "Nombre");
             return View();
         }
         public ActionResult IndexMeet()
@@ -33,14 +36,37 @@ namespace testlogin.Controllers
 
             return View();
         }
-
-        EventoService context = new EventoService();
-        public ActionResult InsertarEvento(EventoModel evento)
+        public ActionResult GuardarEvento(Models.EventoInsert model)
         {
-            Console.WriteLine(evento.ToString());
-            context.addEvento(evento,1);
 
-            return RedirectToAction("Contact");
+            try
+            {
+                meetfastEntities2 db = new meetfastEntities2();
+                Evento evento = new Evento();
+
+                // evento.Id = 12;
+                evento.Lat = (model.Lat);
+                evento.Long = model.Long;
+                evento.Name = model.Name;
+                evento.Descripcion = model.Descripcion;
+                //por defecto 3 probando
+                evento.Creador = 3;
+                evento.TipoEvento = model.TipoEvento;
+                evento.Fecha_Evento = model.Fecha_Evento;
+                Console.WriteLine(evento);
+                db.Evento.Add(evento);
+                db.SaveChanges();
+                ;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+
+            return RedirectToAction("Index");
         }
 
     }

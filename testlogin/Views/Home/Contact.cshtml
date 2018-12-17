@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 
-@model  Infraestructura.Models.EventoModel
+@model  testlogin.Models.EventoInsert
 
 @if ((Request.IsAuthenticated) == (true))
 {
@@ -45,19 +45,19 @@ else
        
           
             <label>Lat</label>
-            @Html.TextBoxFor(model => model.latitud);
+            @Html.TextBoxFor(model => model.Lat);
             <label>Long</label>
-            @Html.TextBoxFor(model => model.longitud);
+            @Html.TextBoxFor(model => model.Long);
             <label>Name</label>
-            @Html.TextBoxFor(model => model.nombre);
+            @Html.TextBoxFor(model => model.Name);
             <label>TipoEvento</label>
 
-            @Html.TextBoxFor(model => model.tematica);
+            @Html.TextBoxFor(model => model.TipoEvento);
          
             <label>Descripcion</label>
-            @Html.TextBoxFor(model => model.descripcion);
+            @Html.TextBoxFor(model => model.Descripcion);
             <label>Fecha_Evento</label>
-            @Html.TextBoxFor(model => model.fechaEvento);
+            @Html.TextBoxFor(model => model.Fecha_Evento);
 
             <input type="submit" value="Crear" class="btn btn-default" />
         }
